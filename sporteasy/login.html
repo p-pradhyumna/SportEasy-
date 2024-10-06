@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <style>
+        body {
+            background: url(http://hdwpro.com/wp-content/uploads/2016/04/Sports-Basketball-Wallpaper.jpg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        p {
+            background-color: tomato;
+        }
+        .abc {
+            margin-left: 700px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container abc pt-5">
+        <div class="row mt-5 pt-5">
+            <div class="col-6 my-4 p-4">
+                <center><h1 class="text-white mb-4">SportEasy</h1></center>
+                <form id="loginForm" onsubmit="authenticateAndRedirect(event)">
+                    <div class="form-group">
+                        <label for="userType" class="text-white">Select User Type:</label>
+                        <select id="userType" class="form-control mb-2">
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <input type="text" id="username" name="username" placeholder="Username" required class="form-control my-2">
+                        <input type="password" id="password" name="password" placeholder="Password" required class="form-control my-2">
+                    </div>
+                    <input type="submit" class="btn col-6 text-black font-weight-bold" value="Login" style="background-color: #b3462b; font-size: 18px;">
+                </form>
+                <p class="mt-3 text-white">Don't have an account? <a href="./register.html">Register</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script>
+        function authenticateAndRedirect(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Add your authentication logic here
+            var userType = document.getElementById("userType").value;
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Retrieve registered users from local storage based on user type
+            var registeredUsers = JSON.parse(localStorage.getItem(userType + "Users")) || [];
+
+            // Check if the entered username and password match any registered user
+            var isAuthenticated = registeredUsers.some(user => user.username === username && user.password === password);
+
+            if (isAuthenticated) {
+                // Authentication successful
+                localStorage.setItem("authenticated", "true");
+
+                // Redirect based on user type
+                if (userType === "admin") {
+                    redirectToBookingRequest();
+                } else if (userType === "student") {
+                    redirectToStudentBooking();
+                }
+            } else {
+                alert("Invalid credentials. Please try again.");
+            }
+        }
+
+        function redirectToBookingRequest() {
+            window.location.href = "./about.html";
+        }
+
+        function redirectToStudentBooking() {
+            window.location.href = "./form.html";
+        }
+    </script>
+</body>
+</html>

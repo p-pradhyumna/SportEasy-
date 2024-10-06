@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Reservation Form</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: antiquewhite;
+        }
+
+        .container {
+            max-width: 600px; /* Adjust the maximum width as needed */
+            width: 100%;
+            text-align: center;
+            margin-top: 20px; /* Adjust the margin as needed */
+            background-color: hsl(0, 16%, 96%); /* Background color with opacity for better readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .reservation-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Equipment Reservation List</h2>
+        <div id="reservationList"></div>
+    </div>
+
+    <script>
+        // Function to handle form submission
+     
+        // Function to display the reservation list
+        function displayReservationList() {
+            var reservationListContainer = document.getElementById('reservationList');
+
+            // Clear the existing content
+            reservationListContainer.innerHTML = '';
+
+            // Retrieve existing data from local storage
+            var existingDataJSON = localStorage.getItem('reservationData');
+            var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+            // Display each reservation as a box
+            existingData.forEach(function (reservation, index) {
+                var reservationBox = document.createElement('div');
+                reservationBox.classList.add('reservation-box');
+                reservationBox.innerHTML = `
+                    <p><strong>Roll No:</strong> ${reservation.rollNo}</p>
+                    <p><strong>Equipment Type:</strong> ${reservation.equipmentType}</p>
+                    <p><strong>No. of Items:</strong> ${reservation.numberOfItems}</p>
+                    <p><strong>PickUp Timings:</strong> ${reservation.pickupTime}</p>
+                    <p><strong>Return Timings:</strong> ${reservation.returnTime}</p>
+                    <p><strong>Coach:</strong> ${reservation.coach}</p>
+                    <button onclick="acceptReservation(${index})">Accept</button>
+                `;
+                reservationListContainer.appendChild(reservationBox);
+            });
+        }
+
+        // Function to accept a reservation and move it to another array
+        function acceptReservation(index) {
+            // Retrieve existing data from local storage
+            var existingDataJSON = localStorage.getItem('reservationData');
+            var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+            // Retrieve the accepted reservation
+            var acceptedReservation = existingData[index];
+
+            // Retrieve available resource count from local storage
+            var availableResourceCount = localStorage.getItem('availableResourceCount');
+
+            // Check if the requested number of items is within the available stock limit
+            if (acceptedReservation.numberOfItems < availableResourceCount) {
+                // Display a prompt if the limit is exceeded
+                alert("Resource stock limit exceeded. Cannot accept the reservation.");
+                return;
+            }
+
+            // Remove the accepted reservation from the pending reservations
+            existingData.splice(index, 1);
+
+            // Retrieve existing accepted data from local storage
+            var acceptedDataJSON = localStorage.getItem('acceptedData');
+            var acceptedData = acceptedDataJSON ? JSON.parse(acceptedDataJSON) : [];
+
+            // Append the accepted reservation to accepted data
+            acceptedData.push(acceptedReservation);
+
+            // Convert the updated data to JSON strings
+            var updatedDataJSON = JSON.stringify(existingData);
+            var updatedAcceptedDataJSON = JSON.stringify(acceptedData);
+
+            // Store the updated data and accepted data in local storage
+            localStorage.setItem('reservationData', updatedDataJSON);
+            localStorage.setItem('acceptedData', updatedAcceptedDataJSON);
+
+            // Display the updated reservation list
+            displayReservationList();
+        }
+
+        // Initial display of the reservation list
+        displayReservationList();
+
+    </script>
+
+</body>
+</html>

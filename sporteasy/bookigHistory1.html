@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equipment Reservation History</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: antiquewhite ;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .reservation-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Equipment Reservation List</h2>
+    <div id="reservationList"></div>
+  </div>
+
+  <script>
+    // Function to display the reservation list
+    function displayReservationList() {
+      var reservationListContainer = document.getElementById('reservationList');
+
+      // Clear the existing content
+      reservationListContainer.innerHTML = '';
+
+      // Retrieve existing data from local storage
+      var existingDataJSON = localStorage.getItem('acceptedData');
+      var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+      // Display each reservation as a box
+      existingData.forEach(function (reservation, index) {
+        var reservationBox = document.createElement('div');
+        reservationBox.classList.add('reservation-box');
+        reservationBox.innerHTML = `
+                    <p><strong>Roll No:</strong> ${reservation.rollNo}</p>
+                    <p><strong>Equipment Type:</strong> ${reservation.equipmentType}</p>
+                    <p><strong>No. of Items:</strong> ${reservation.numberOfItems}</p>
+                    <p><strong>Timings:</strong> ${reservation.pickupTime}</p>
+                    <p><strong>Timings:</strong> ${reservation.returnTime}</p>
+                    <p>NOT  RETURNED</p>
+                    <button onclick="confirmRemoveReservation(${index})"> Return</button>
+                `;
+        reservationListContainer.appendChild(reservationBox);
+      });
+    }
+
+    function getCurrentTime() {
+      var now = new Date();
+      var hours = now.getHours().toString().padStart(2, '0');
+      var minutes = now.getMinutes().toString().padStart(2, '0');
+      return hours + ':' + minutes;
+    }
+
+    // Function to remove a reservation by index
+    function confirmRemoveReservation(index) {
+      // Retrieve existing data from local storage
+      var existingDataJSON = localStorage.getItem('acceptedData');
+      var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+      // Log the existing data before removal
+      console.log('Existing Data Before Removal:', existingData);
+      var currentTime = getCurrentTime();
+
+      // Compare current time with the specified return time
+      if (currentTime > existingData[index].returnTime) {
+        // Impose a fine (you can customize this logic)
+        alert("Fine imposed RS 100 ! Return time has passed.");
+      } else {
+        alert("No fine imposed. Return time is still valid.");
+      }
+
+      // Remove the reservation at the specified index
+      existingData.splice(index, 1);
+
+      // Log the existing data after removal
+      console.log('Existing Data After Removal:', existingData);
+
+      // Save the updated data back to local storage
+      localStorage.setItem('acceptedData', JSON.stringify(existingData));
+      // alert("asfaf")
+      
+      // Update the displayed reservation list
+      displayReservationList();
+    }
+
+    // Initial display of the reservation list
+    displayReservationList();
+
+  </script>
+
+</body>
+
+</html>

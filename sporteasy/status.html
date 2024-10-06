@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .status-container {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        .status-container, .status-row {
+            border: 1px solid black;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Booking Status</h2>
+
+    <div class="status-container" id="statusContainer">
+        <!-- Status rows will be dynamically added here -->
+    </div>
+
+    <script>
+        // Function to display the reservation status
+        function displayReservationStatus() {
+            var statusContainer = document.getElementById('statusContainer');
+
+            // Retrieve existing data from local storage
+            var reservationDataJSON = localStorage.getItem('reservationData');
+            var reservationData = reservationDataJSON ? JSON.parse(reservationDataJSON) : [];
+
+            var acceptedDataJSON = localStorage.getItem('acceptedData');
+            var acceptedData = acceptedDataJSON ? JSON.parse(acceptedDataJSON) : [];
+
+            // Clear the existing content
+            statusContainer.innerHTML = '';
+
+            // Display each reservation as a status row
+            reservationData.forEach(function (reservation) {
+                var statusRow = document.createElement('div');
+                statusRow.classList.add('status-row');
+
+                // Check if the reservation is accepted
+                var isAccepted = acceptedData.some(function (acceptedReservation) {
+                    return acceptedReservation.rollNo === reservation.rollNo && acceptedReservation.equipmentType === reservation.equipmentType;
+                });
+
+                statusRow.innerHTML = `
+                    <div>Equipment Type: ${reservation.equipmentType}</div>
+                    <div>Status: ${isAccepted ? 'Accepted' : 'Pending'}</div>
+                    <div>Coach: ${reservation.coach}</div>
+
+                `;
+                statusContainer.appendChild(statusRow);
+            });
+        }
+
+        // Initial display of the reservation status
+        displayReservationStatus();
+    </script>
+
+</body>
+</html>

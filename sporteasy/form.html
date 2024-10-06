@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Reservation Form</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        table, td {
+            border: 1px solid black;
+        }
+
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        select, input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="buttons-container">
+        <!-- Button for Status -->
+        <button onclick="redirectToStatus()">Status</button>
+        <!-- Button for Logout -->
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <h2>SportEasy</h2>
+
+    <table>
+        <tr>
+            <td><label for="rollno">Enter roll no:</label></td>
+            <td><input type="text" name='rollno' id="idno" placeholder="Roll No" required></td>
+        </tr>
+        <tr>
+            <td><label for="equipment_type">Choose an Equipment:</label></td>
+            <td>
+                <select name="equipment_type" id="equipment_type" required>
+                    <option value="badminton_rackets">Badminton rackets</option>
+                    <option value="chess_boards">Chess boards</option>
+                    <option value="carrom_boards">Carrom boards</option>
+                    <option value="balls_batts">Cricket balls and bats</option>
+                    <option value="table_tennis">Table tennis</option>
+                    <option value="volley_ball">Volleyball</option>
+                    <option value="throw_ball">Throw ball</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="no_of_items">Number of items:</label></td>
+            <td><input type="number" name='no_of_items' placeholder="No of items" id="noOfitems" required></td>
+        </tr>
+        <tr>
+            <td><label for="timings">Pickup Time:</label></td>
+            <td><input type="time" name="timings" id="times" required></td>
+        </tr>
+        <!-- New row for Return Time field -->
+        <tr>
+            <td><label for="return_timings">Return Time:</label></td>
+            <td><input type="time" name="return_timings" id="returnTimes" required></td>
+        </tr>
+        <tr>
+            <td><label for="coach">Select Coach:</label></td>
+            <td>
+                <select name="coach" id="coach" required>
+                    <!-- Add options for coaches based on the selected sport -->
+                </select>
+            </td>
+        </tr> 
+        <tr>
+            <td colspan="2"><button onclick="handleFormSubmission()">Submit</button></td>
+        </tr>
+               
+    </table>
+
+    <script>
+        // Function to handle form submission
+        
+        function handleFormSubmission() {
+            // Get form values
+            var rollNo = document.getElementById('idno').value;
+            var equipmentType = document.getElementById('equipment_type').value;
+            var numberOfItems = document.getElementById('noOfitems').value;
+            var pickupTime = document.getElementById('times').value;
+            var returnTime = document.getElementById('returnTimes').value; // New line for Return Time
+
+            // Create an object with the form data
+            var formData = {
+                rollNo: rollNo,
+                equipmentType: equipmentType,
+                numberOfItems: numberOfItems,
+                pickupTime: pickupTime,
+                returnTime: returnTime // New line for Return Time
+            };
+
+            // Retrieve existing data from local storage
+            var existingDataJSON = localStorage.getItem('reservationData');
+            var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+            // Append new data to existing data
+            existingData.push(formData);
+
+            // Convert the updated data to a JSON string
+            var updatedDataJSON = JSON.stringify(existingData);
+
+            // Store the updated data in local storage
+            localStorage.setItem('reservationData', updatedDataJSON);
+
+            // Display a confirmation message (you can customize this part)
+            alert('Reservation data has been appended to local storage.');
+        }
+
+        // Function to update the status section
+        function updateStatusSection() {
+            // ... (rest of the status update logic)
+        }
+
+        // Redirect to status.html
+        function redirectToStatus() {
+            window.location.href = 'status.html';
+        }
+
+        // Simulated logout function
+        function logout() {
+            // Perform logout actions as needed
+            alert('Logged out successfully');
+            window.location.href = 'login.html'; // Replace with the actual login page
+        }
+        // Function to handle form submission
+function handleFormSubmission() {
+    // Get form values
+    var rollNo = document.getElementById('idno').value;
+    var equipmentType = document.getElementById('equipment_type').value;
+    var numberOfItems = document.getElementById('noOfitems').value;
+    var pickupTime = document.getElementById('times').value;
+    var returnTime = document.getElementById('returnTimes').value;
+    var selectedCoach = document.getElementById('coach').value; // New line for Coach selection
+
+    // Create an object with the form data
+    var formData = {
+        rollNo: rollNo,
+        equipmentType: equipmentType,
+        numberOfItems: numberOfItems,
+        pickupTime: pickupTime,
+        returnTime: returnTime,
+        coach: selectedCoach // New line for Coach selection
+    };
+
+    // Retrieve existing data from local storage
+    var existingDataJSON = localStorage.getItem('reservationData');
+    var existingData = existingDataJSON ? JSON.parse(existingDataJSON) : [];
+
+    // Append new data to existing data
+    existingData.push(formData);
+
+    // Convert the updated data to a JSON string
+    var updatedDataJSON = JSON.stringify(existingData);
+
+    // Store the updated data in local storage
+    localStorage.setItem('reservationData', updatedDataJSON);
+
+    // Display a confirmation message (you can customize this part)
+    alert('Reservation data has been appended to local storage.');
+}
+
+// Function to update the coach options based on the selected sport
+// Function to update the coach options based on the selected sport
+function updateCoachOptions() {
+    var selectedSport = document.getElementById('equipment_type').value;
+    var coachSelect = document.getElementById('coach');
+
+    // Clear existing options
+    coachSelect.innerHTML = '';
+
+    // Populate options based on the selected sport
+    switch (selectedSport) {
+        case 'badminton_rackets':
+            // Add options for badminton coaches
+            addCoachOption(coachSelect, 'Coach A', isCoachAvailable('Coach A'));
+            addCoachOption(coachSelect, 'Coach B', isCoachAvailable('Coach B'));
+            break;
+
+        case 'chess_boards':
+            // Add options for chess coaches
+            addCoachOption(coachSelect, 'Coach X', isCoachAvailable('Coach X'));
+            addCoachOption(coachSelect, 'Coach Y', isCoachAvailable('Coach Y'));
+            break;
+
+        case 'carrom_boards':
+            // Add options for carrom coaches
+            addCoachOption(coachSelect, 'Coach P', isCoachAvailable('Coach P'));
+            addCoachOption(coachSelect, 'Coach Q', isCoachAvailable('Coach Q'));
+            break;
+
+        case 'balls_batts':
+            // Add options for cricket coaches
+            addCoachOption(coachSelect, 'Coach M', isCoachAvailable('Coach M'));
+            addCoachOption(coachSelect, 'Coach N', isCoachAvailable('Coach N'));
+            break;
+
+        case 'table_tennis':
+            // Add options for table tennis coaches
+            addCoachOption(coachSelect, 'Coach S', isCoachAvailable('Coach S'));
+            addCoachOption(coachSelect, 'Coach T', isCoachAvailable('Coach T'));
+            break;
+
+        case 'volley_ball':
+            // Add options for volleyball coaches
+            addCoachOption(coachSelect, 'Coach J', isCoachAvailable('Coach J'));
+            addCoachOption(coachSelect, 'Coach K', isCoachAvailable('Coach K'));
+            break;
+
+        case 'throw_ball':
+            // Add options for throw ball coaches
+            addCoachOption(coachSelect, 'Coach Z', isCoachAvailable('Coach Z'));
+            addCoachOption(coachSelect, 'Coach W', isCoachAvailable('Coach W'));
+            break;
+
+        default:
+            // Add a default case or handle unknown sports
+            break;
+    }
+}
+
+
+// Function to add coach option with availability status
+function addCoachOption(selectElement, coachName, isAvailable) {
+    var option = document.createElement('option');
+    option.value = coachName;
+    option.text = coachName + (isAvailable ? ' (Available)' : ' (Not Available)');
+    selectElement.add(option);
+}
+
+// Function to check coach availability (you can customize this logic)
+function isCoachAvailable(coachName) {
+    // Implement your logic to check coach availability here
+    // For example, check against a list of available coaches
+    // Return true if available, false otherwise
+    return true; // Placeholder, replace with your actual logic
+}
+
+// Event listener to update coach options when the sport selection changes
+document.getElementById('equipment_type').addEventListener('change', updateCoachOptions);
+
+// Initial update of coach options based on the default selected sport
+updateCoachOptions();
+
+    </script>
+
+</body>
+</html>

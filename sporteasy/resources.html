@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .h1 {
+            margin: 50px 50px 50px 250px;
+        }
+
+        .fa-plus {
+            font-size: 30px;
+        }
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .dropdown {
+            margin: 10px;
+        }
+
+        #demoImage {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="about.html">Sports Resources</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./resources.html">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./bookigHistory.html">Booking History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./bookingRequest.html">Booking Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blockedUsers.html">Blocked Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./timetable.html">Timetable</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+              
+                    <!--<li class="nav-item"><a class="nav-link" href ="{% url 'logout' %}">Logout</a></li>-->
+                    <div class="bs-example">
+                    <div class="btn-group-vertical">
+                        <div class="btn-group">
+                            <button id="butn-1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Account</button>
+                            <div class="dropdown-menu">
+                                <a href="updatePassword.html" class="dropdown-item">Change Password</a>
+                                <a href="login.html" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                    <!-- <li class="nav-item"><a class="nav-link"href ="#">Login <i class="fa fa-user-plus" aria-hidden="true"></i></a></li> -->
+                    </div>
+                   </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="h1 text-secondary">Resources</h1>
+
+  <div class="card bg-light" id="resource1">
+    <div class="card-body">
+      <i class="btn btn-circle fa fa-minus-circle pull-right text-danger" aria-hidden="true" onclick="removeResource(1)"></i>
+      <i class="btn btn-circle fa fa-plus-circle pull-right text-primary" aria-hidden="true" onclick="addResource(1)"></i>
+      <div class="h3 d-inline">Badminton rackets</div>
+      <div class="number d-inline pull-right" id="count1">40/60</div>
+      <div class="small">Description</div>
+    </div>
+  </div>
+  <div class="card bg-light" id="resource2">
+    <div class="card-body">
+      <i class="btn btn-circle fa fa-minus-circle pull-right text-danger" aria-hidden="true" onclick="removeResource(2)"></i>
+      <i class="btn btn-circle fa fa-plus-circle pull-right text-primary" aria-hidden="true" onclick="addResource(2)"></i>
+      <div class="h3 d-inline">Chess boards</div>
+      <div class="number d-inline pull-right" id="count2">40/60</div>
+      <div class="small">Description</div>
+    </div>
+  </div>
+  <div class="card bg-light" id="resource3">
+    <div class="card-body">
+      <i class="btn btn-circle fa fa-minus-circle pull-right text-danger" aria-hidden="true" onclick="removeResource(3)"></i>
+      <i class="btn btn-circle fa fa-plus-circle pull-right text-primary" aria-hidden="true" onclick="addResource(3)"></i>
+      <div class="h3 d-inline">Carrom boards</div>
+      <div class="number d-inline pull-right" id="count3">40/60</div>
+      <div class="small">Description</div>
+    </div>
+  </div>
+  <div class="card bg-light" id="resource4">
+    <div class="card-body">
+      <i class="btn btn-circle fa fa-minus-circle pull-right text-danger" aria-hidden="true" onclick="removeResource(4)"></i>
+      <i class="btn btn-circle fa fa-plus-circle pull-right text-primary" aria-hidden="true" onclick="addResource(4)"></i>
+      <div class="h3 d-inline">Cricket balls and bats</div>
+      <div class="number d-inline pull-right" id="count4">40/60</div>
+      <div class="small">Description</div>
+    </div>
+  </div>
+  <div class="card bg-light" id="resource5">
+    <div class="card-body">
+      <i class="btn btn-circle fa fa-minus-circle pull-right text-danger" aria-hidden="true" onclick="removeResource(5)"></i>
+      <i class="btn btn-circle fa fa-plus-circle pull-right text-primary" aria-hidden="true" onclick="addResource(5)"></i>
+      <div class="h3 d-inline">Table tennis</div>
+      <div class="number d-inline pull-right" id="count5">40/60</div>
+      <div class="small">Description</div>
+    </div>
+  </div>
+  <!-- Add more resource cards as needed -->
+
+  <!-- Bootstrap JS -->
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script>
+    // Function to handle resource addition
+    function addResource(resourceId) {
+      var countElement = document.getElementById('count' + resourceId);
+      var count = countElement.innerHTML.split('/');
+      count[0]++;
+      countElement.innerHTML = count.join('/');
+      updateLocalStorage();
+    }
+
+    // Function to handle resource removal
+    function removeResource(resourceId) {
+      var countElement = document.getElementById('count' + resourceId);
+      var count = countElement.innerHTML.split('/');
+      if (count[0] > 0) {
+        count[0]--;
+        countElement.innerHTML = count.join('/');
+        updateLocalStorage();
+      }
+    }
+
+    // Function to update local storage with the current counts
+    function updateLocalStorage() {
+      var resourceCounts = [];
+      var cardElements = document.querySelectorAll('.card');
+      cardElements.forEach(function (card, index) {
+        var countElement = card.querySelector('.number');
+        var count = countElement.innerHTML.split('/');
+        resourceCounts.push({
+          id: index + 1,
+          //name: e, // You can replace this with the actual name
+          count: count[0],
+          total: count[1]
+        });
+      });
+      localStorage.setItem('resourceCounts', JSON.stringify(resourceCounts));
+    }
+
+    // Load counts from local storage on page load
+    window.onload = function () {
+      var storedCounts = localStorage.getItem('resourceCounts');
+      if (storedCounts) {
+        var resourceCounts = JSON.parse(storedCounts);
+        resourceCounts.forEach(function (resource) {
+          var countElement = document.getElementById('count' + resource.id);
+          countElement.innerHTML = resource.count + '/' + resource.total;
+        });
+      }
+    };
+  </script>
+</body>
+</html>
